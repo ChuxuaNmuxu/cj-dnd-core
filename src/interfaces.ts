@@ -103,6 +103,8 @@ export interface DragDropMonitor {
 	 * drag operation has started. Returns null if no item is being dragged.
 	 */
 	getDifferenceFromInitialOffset(): XYCoord | null
+
+	getEvent(): object
 }
 
 export interface HandlerRegistry {
@@ -135,6 +137,7 @@ export interface BeginDragOptions {
 	publishSource?: boolean
 	clientOffset?: XYCoord
 	getSourceClientOffset?: (sourceId: Identifier) => XYCoord
+	meta: object
 }
 
 export interface BeginDragPayload {
@@ -144,16 +147,19 @@ export interface BeginDragPayload {
 	sourceId: Identifier
 	clientOffset: XYCoord | null
 	sourceClientOffset: XYCoord | null
-	isSourcePublic: boolean
+	isSourcePublic: boolean,
+	meta: object
 }
 
 export interface HoverPayload {
 	targetIds: Identifier[]
-	clientOffset: XYCoord | null
+	clientOffset: XYCoord | null,
+	meta: object
 }
 
 export interface HoverOptions {
-	clientOffset?: XYCoord
+	clientOffset?: XYCoord,
+	meta: object
 }
 
 export interface DropPayload {

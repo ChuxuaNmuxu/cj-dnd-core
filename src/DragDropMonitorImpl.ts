@@ -191,4 +191,8 @@ export default class DragDropMonitorImpl implements DragDropMonitor {
 	public getDifferenceFromInitialOffset() {
 		return getDifferenceFromInitialOffset(this.store.getState().dragOffset)
 	}
+
+	public getEvent () {
+		return this.store.getState().dragOperation.meta.event
+	}
 }

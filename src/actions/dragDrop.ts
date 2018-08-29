@@ -34,8 +34,10 @@ export default function createDragDropActions<Context>(
 				publishSource,
 				clientOffset,
 				getSourceClientOffset,
+				meta
 			}: BeginDragOptions = {
 				publishSource: true,
+				meta: {}
 			},
 		): Action<BeginDragPayload> | undefined {
 			const monitor = manager.getMonitor()
@@ -87,6 +89,7 @@ export default function createDragDropActions<Context>(
 					clientOffset: clientOffset || null,
 					sourceClientOffset: sourceClientOffset || null,
 					isSourcePublic: !!publishSource,
+					meta
 				},
 			}
 		},
@@ -101,7 +104,7 @@ export default function createDragDropActions<Context>(
 
 		hover(
 			targetIdsArg: string[],
-			{ clientOffset }: HoverOptions = {},
+			{ clientOffset, meta }: HoverOptions = {meta: {}},
 		): Action<HoverPayload> {
 			invariant(
 				Array.isArray(targetIdsArg),
@@ -158,6 +161,7 @@ export default function createDragDropActions<Context>(
 				payload: {
 					targetIds,
 					clientOffset: clientOffset || null,
+					meta
 				},
 			}
 		},

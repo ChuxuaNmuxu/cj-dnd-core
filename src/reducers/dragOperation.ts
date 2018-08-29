@@ -9,6 +9,10 @@ import { REMOVE_TARGET } from '../actions/registry'
 import { Identifier, Action } from '../interfaces'
 const without = require('lodash/without')
 
+export interface Meta {
+	event: object
+}
+
 export interface State {
 	itemType: Identifier | Identifier[] | null
 	item: any,
@@ -17,7 +21,8 @@ export interface State {
 	targetIds: string[]
 	dropResult: any
 	didDrop: boolean
-	isSourcePublic: boolean | null
+	isSourcePublic: boolean | null,
+	meta: Meta
 }
 
 const initialState: State = {
@@ -29,6 +34,7 @@ const initialState: State = {
 	dropResult: null,
 	didDrop: false,
 	isSourcePublic: null,
+	meta: {event: {}}
 }
 
 export default function dragOperation(
@@ -41,7 +47,8 @@ export default function dragOperation(
 		targetId: string
 		targetIds: string[]
 		isSourcePublic: boolean
-		dropResult: any
+		dropResult: any,
+		meta: Meta
 	}>,
 ) {
 	const { payload } = action
@@ -56,6 +63,7 @@ export default function dragOperation(
 				isSourcePublic: payload.isSourcePublic,
 				dropResult: null,
 				didDrop: false,
+				meta: payload.meta
 			}
 		case PUBLISH_DRAG_SOURCE:
 			return {
@@ -66,6 +74,7 @@ export default function dragOperation(
 			return {
 				...state,
 				targetIds: payload.targetIds,
+				meta: payload.meta
 			}
 		case REMOVE_TARGET:
 			if (state.targetIds.indexOf(payload.targetId) === -1) {
@@ -81,6 +90,7 @@ export default function dragOperation(
 				dropResult: payload.dropResult,
 				didDrop: true,
 				targetIds: [],
+				meta: payload.meta
 			}
 		case END_DRAG:
 			return {
@@ -91,7 +101,7 @@ export default function dragOperation(
 				dropResult: null,
 				didDrop: false,
 				isSourcePublic: null,
-				targetIds: [],
+				targetIds: []
 			}
 		default:
 			return state
